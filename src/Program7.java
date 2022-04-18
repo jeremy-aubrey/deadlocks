@@ -1,16 +1,39 @@
+//********************************************************************
+//
+//  Author:        Jeremy Aubrey
+//
+//  Program #:     7
+//
+//  File Name:     Program7.java
+//
+//  Course:        COSC-4302 Operating Systems
+//
+//  Due Date:      04/19/2022
+//
+//  Instructor:    Fred Kumi 
+//
+//  Chapter:       8
+//
+//  Description:   A class to test synchronization among threads. Each thread
+//                 represents a farmer attempting to cross a single-lane bridge.
+//                 A thread (farmer) must acquire a lock on the shared resource
+//                 before it is allowed to continue processing.
+//
+//*********************************************************************
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class FarmerTest {
+public class Program7 {
 
 	private static final int FARMER_COUNT = 50;
 	
 	public static void main(String[] args) {
 		
-		FarmerTest obj = new FarmerTest();
+		Program7 obj = new Program7();
 		obj.developerInfo();
 		
 		List<Farmer> farmers = new ArrayList<>();
@@ -18,7 +41,6 @@ public class FarmerTest {
 		ExecutorService pool = Executors.newFixedThreadPool(coreCount);
 		
 		String direction = "";
-		
 		// add runnable farmers to list
 		for(int i = 0; i < FARMER_COUNT; i++) {
 			if(i % 2 == 0) {
@@ -29,15 +51,11 @@ public class FarmerTest {
 			farmers.add(new Farmer(direction));
 		}
 		
+		System.out.println("\nFarmers arriving to the tunnel...\n");
+		
 		// submit farmers to thread pool
 		for(int i = 0; i < farmers.size(); i++) {
 			pool.submit(farmers.get(i));
-			try {
-				Thread.sleep((int)(1000 * Math.random()) + 1); //simulate offset arrival
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 		
 		// shutdown
@@ -67,4 +85,5 @@ public class FarmerTest {
        System.out.println("Program: 7");
 
     }// end developerInfo method
-}
+    
+}// end Program7 class
