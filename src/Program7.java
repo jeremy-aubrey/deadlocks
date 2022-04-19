@@ -40,8 +40,8 @@ public class Program7 {
 		int coreCount = Runtime.getRuntime().availableProcessors();
 		ExecutorService pool = Executors.newFixedThreadPool(coreCount);
 		
+		// add runnable Farmers to list
 		String direction = "";
-		// add runnable farmers to list
 		for(int i = 0; i < FARMER_COUNT; i++) {
 			if(i % 2 == 0) {
 				direction = "NorthBound";
@@ -53,7 +53,7 @@ public class Program7 {
 		
 		System.out.println("\nFarmers arriving to the tunnel...\n");
 		
-		// submit farmers to thread pool
+		// submit farmers to executor service
 		for(int i = 0; i < farmers.size(); i++) {
 			pool.submit(farmers.get(i));
 		}
@@ -65,7 +65,7 @@ public class Program7 {
 		} catch (InterruptedException e) {
 			System.out.println(e.getMessage());
 		}
-	}
+	}// end main method
 	
     //***************************************************************
     //

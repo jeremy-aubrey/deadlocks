@@ -17,7 +17,7 @@
 //  Description:   A runnable class that represents either a NorthBound
 //                 or SouthBound farmer competing for a chance to cross a 
 //                 single-lane bridge. The thread must acquire a lock in 
-//                 order to proceed across the bridge.
+//                 order to proceed (perform its "work") across the bridge.
 //
 //*********************************************************************
 
@@ -85,15 +85,15 @@ public class Farmer implements Runnable {
 	private void crossRoad() {
 		
 		System.out.println(direction+" Farmer "+id+" wants to enter the tunnel.");
-		while(!roadLock.tryLock());
+		while(!roadLock.tryLock()); // proceed only when lock acquired
 		declareEntry();
 		try {
-			randomSleep(4); // max of 4 seconds
+			randomSleep(3); // max of 3 seconds
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} finally {
 			declareExit();
-			roadLock.unlock();
+			roadLock.unlock(); // release lock
 		}
 	}// end crossRoad method
 	
@@ -115,7 +115,7 @@ public class Farmer implements Runnable {
 		if(maxSeconds > 1) {
 			milliseconds = maxSeconds * 1000;
 		}
-		Thread.sleep((int)(milliseconds * Math.random()) + 1);
+		Thread.sleep((int)(milliseconds * Math.random()) + 1000); // 1000 (min) - milliseconds (max)
 		
 	}// end randomSleep method
 	
